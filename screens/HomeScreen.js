@@ -16,7 +16,11 @@ import {indexStyles} from '../theme';
 import TrendingMovies from '../components/trendingMovies';
 
 const HomeScreen = () => {
-  const [trending, setTrending] = useState([1, 2, 3]);
+  const [trending, setTrending] = useState([
+    {title: 'Movie 1'},
+    {title: 'Movie 2'},
+    {title: 'Movie 3'},
+  ]);
   return (
     <View style={styles.container}>
       {/* search bar and logo */}
