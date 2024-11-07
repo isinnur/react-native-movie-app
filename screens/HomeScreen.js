@@ -14,13 +14,12 @@ import {
 } from 'react-native-heroicons/outline';
 import {indexStyles} from '../theme';
 import TrendingMovies from '../components/trendingMovies';
+import MovieList from '../components/movieList';
 
 const HomeScreen = () => {
-  const [trending, setTrending] = useState([
-    {title: 'Movie 1'},
-    {title: 'Movie 2'},
-    {title: 'Movie 3'},
-  ]);
+  const [trending, setTrending] = useState([1, 2, 3]);
+  const [upcoming, setUpcoming] = useState([1, 2, 3]);
+  const [topRated, setTopRated] = useState([1, 2, 3]);
   return (
     <View style={styles.container}>
       {/* search bar and logo */}
@@ -42,6 +41,12 @@ const HomeScreen = () => {
         contentContainerStyle={{paddingBottom: 10}}>
         {/* trending movies carousel */}
         <TrendingMovies data={trending} />
+
+        {/* upcoming movies row */}
+        <MovieList title="Upcoming" data={upcoming} />
+
+        {/* top rated movies row */}
+        <MovieList title="Top Rated" data={topRated} />
       </ScrollView>
     </View>
   );
@@ -61,7 +66,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     flexDirection: 'row',
-    padding: 3,
+    paddingHorizontal: 10,
+    marginTop: 10,
   },
 
   title: {

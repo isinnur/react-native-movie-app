@@ -1,32 +1,49 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableWithoutFeedback} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  Dimensions,
+  Button,
+} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
+import {Image} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
+const {width, height} = Dimensions.get('window');
 export default function TrendingMovies({data}) {
-  const renderItem = ({item}) => {
-    return <MovieCard item={item} />;
-  };
+  const navigation = useNavigation();
 
+  const handleClick = item => {
+    navigation.navigate('Movie', item);
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Trending</Text>
       <Carousel
         data={data}
-        renderItem={renderItem}
-        sliderWidth={300}
-        itemWidth={200}
-        containerCustomStyle={styles.carouselContainer}
+        renderItem={({item}) => (
+          <MovieCard item={item} handleClick={handleClick} />
+        )}
+        firstItem={1}
+        inactiveSlideOpacity={0.6}
+        sliderWidth={width}
+        itemWidth={width * 0.62}
+        slideStyle={{display: 'flex', alignItems: 'center'}}
       />
     </View>
   );
 }
 
-const MovieCard = ({item}) => {
+const MovieCard = ({item, handleClick}) => {
   return (
-    <TouchableWithoutFeedback>
-      <View style={styles.card}>
-        <Text style={styles.cardText}>{item.title}</Text>
-      </View>
+    <TouchableWithoutFeedback onPress={() => handleClick(item)}>
+      <Image
+        source={require('../assets/images/poster1.webp')}
+        // style={{width: width * 0.6, height: height * 0.4}}
+        style={styles.posterImage}
+      />
     </TouchableWithoutFeedback>
   );
 };
@@ -40,24 +57,13 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 20,
     marginHorizontal: 4,
-    marginBottom: 5,
+    marginVertical: 10,
   },
 
-  card: {
-    backgroundColor: 'gray',
-    borderRadius: 8,
-    height: 200,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 10,
-  },
-
-  cardText: {
-    color: 'white',
-    fontSize: 16,
-  },
-
-  carouselContainer: {
+  posterImage: {
+    width: width * 0.6,
+    height: height * 0.4,
+    borderRadius: 20,
     marginTop: 10,
   },
 });
