@@ -47,6 +47,7 @@ export default function Cast({cast, navigation}) {
 const styles = StyleSheet.create({
   castContainer: {
     marginVertical: 18,
+    marginTop: 45,
   },
 
   topCast: {

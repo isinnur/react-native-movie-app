@@ -16,16 +16,19 @@ import {useNavigation} from '@react-navigation/native';
 
 const {width, height} = Dimensions.get('window');
 
-export default function MovieList({title, data}) {
+export default function MovieList({title, data, hideSeeAll}) {
   let movieName = 'How I Met your Mother';
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.subContainer}>
         <Text style={styles.title}> {title} </Text>
-        <TouchableOpacity>
-          <Text style={indexStyles.text}>See All</Text>
-        </TouchableOpacity>
+
+        {!hideSeeAll && (
+          <TouchableOpacity>
+            <Text style={indexStyles.text}>See All</Text>
+          </TouchableOpacity>
+        )}
       </View>
       {/* movie row */}
       <ScrollView
@@ -36,7 +39,7 @@ export default function MovieList({title, data}) {
           return (
             <TouchableWithoutFeedback
               key={index}
-              onPress={() => navigation.navigate('Movie', item)}>
+              onPress={() => navigation.push('Movie', item)}>
               <View style={styles.wrapper}>
                 <Image
                   source={require('../assets/images/poster2.webp')}

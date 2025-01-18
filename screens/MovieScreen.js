@@ -15,6 +15,7 @@ import {indexStyles, theme} from '../theme';
 import {Image} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Cast from '../components/cast';
+import MovieList from '../components/movieList';
 
 const {width, height} = Dimensions.get('window');
 
@@ -22,6 +23,7 @@ export default function MovieScreen() {
   const {params: item} = useRoute();
   const [isFavorite, toggleFavorite] = useState(false);
   const [cast, setCast] = useState([1, 2, 3, 4, 5]);
+  const [similarMovies, setSimilarMovies] = useState([1, 2, 3, 4, 5]);
   const navigation = useNavigation();
   let movieName = 'Game of Thrones';
 
@@ -88,6 +90,13 @@ export default function MovieScreen() {
 
       {/* cast */}
       <Cast cast={cast} navigation={navigation} />
+
+      {/* similar movies */}
+      <MovieList
+        title="Similar Movies"
+        hideSeeAll={true}
+        data={similarMovies}
+      />
     </ScrollView>
   );
 }
@@ -96,7 +105,7 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     flex: 1,
-    backgroundColor: '#262728',
+    backgroundColor: '#171717',
   },
 
   wrapper: {

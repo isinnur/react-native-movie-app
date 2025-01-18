@@ -4,6 +4,7 @@ import HomeScreen from './screens/HomeScreen';
 import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer, StackRouter} from '@react-navigation/native';
 import MovieScreen from './screens/MovieScreen';
+import PersonScreen from './screens/PersonScreen';
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -23,15 +24,14 @@ const App = () => {
           component={MovieScreen}
           options={{headerShown: false}}
         />
+        <Stack.Screen
+          name="Person"
+          component={PersonScreen}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default App;
