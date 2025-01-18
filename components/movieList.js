@@ -17,8 +17,7 @@ import {useNavigation} from '@react-navigation/native';
 const {width, height} = Dimensions.get('window');
 
 export default function MovieList({title, data}) {
-  let movieName =
-    'How I Met your MotherMotherMotherMotherMotherMotherMotherMotherMother';
+  let movieName = 'How I Met your Mother';
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
