@@ -14,12 +14,14 @@ import {HeartIcon} from 'react-native-heroicons/solid';
 import {indexStyles, theme} from '../theme';
 import {Image} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import Cast from '../components/cast';
 
 const {width, height} = Dimensions.get('window');
 
 export default function MovieScreen() {
   const {params: item} = useRoute();
   const [isFavorite, toggleFavorite] = useState(false);
+  const [cast, setCast] = useState([1, 2, 3, 4, 5]);
   const navigation = useNavigation();
   let movieName = 'Game of Thrones';
 
@@ -85,6 +87,7 @@ export default function MovieScreen() {
       </Text>
 
       {/* cast */}
+      <Cast cast={cast} navigation={navigation} />
     </ScrollView>
   );
 }
