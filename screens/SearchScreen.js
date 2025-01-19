@@ -13,6 +13,7 @@ import React, {useState} from 'react';
 import {XMarkIcon} from 'react-native-heroicons/outline';
 import {useNavigation} from '@react-navigation/native';
 import {ScrollView} from 'react-native-gesture-handler';
+import Loading from '../components/loading';
 
 const {width, height} = Dimensions.get('window');
 
@@ -20,6 +21,8 @@ export default function SearchScreen() {
   const navigation = useNavigation();
   const [results, setResults] = useState([1, 2, 3, 4]);
   let movieName = 'Squid Game';
+  const [loading, setLoading] = useState(false);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.searchBar}>
@@ -39,7 +42,10 @@ export default function SearchScreen() {
       </View>
 
       {/* results */}
-      {results.length > 0 ? (
+
+      {loading ? (
+        <Loading />
+      ) : results.length > 0 ? (
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{paddingHorizontal: 15}}

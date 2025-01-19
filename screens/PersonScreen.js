@@ -13,6 +13,7 @@ import {ChevronLeftIcon, HeartIcon} from 'react-native-heroicons/solid';
 import {useNavigation} from '@react-navigation/native';
 import {indexStyles} from '../theme';
 import MovieList from '../components/movieList';
+import Loading from '../components/loading';
 
 const {width, height} = Dimensions.get('window');
 
@@ -20,6 +21,8 @@ export default function PersonScreen() {
   const navigation = useNavigation();
   const [isFavorite, toggleFavorite] = useState(false);
   const [personMovies, setPersonMovies] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+  const [loading, setLoading] = useState(false);
+
   return (
     <ScrollView
       style={styles.personContainer}
@@ -39,66 +42,71 @@ export default function PersonScreen() {
 
       {/* person details */}
 
-      <View>
-        <View style={styles.personDetails}>
-          <View style={styles.imageView}>
-            <Image
-              style={styles.image}
-              source={require('../assets/images/cast1.png')}
-            />
+      {loading ? (
+        <Loading />
+      ) : (
+        <View>
+          <View style={styles.personDetails}>
+            <View style={styles.imageView}>
+              <Image
+                style={styles.image}
+                source={require('../assets/images/cast1.png')}
+              />
+            </View>
           </View>
-        </View>
 
-        <View style={styles.personDetail}>
-          <Text style={styles.personText}>Kit Harington</Text>
-          <Text style={styles.location}>London, United Kingdom</Text>
-        </View>
+          <View style={styles.personDetail}>
+            <Text style={styles.personText}>Kit Harington</Text>
+            <Text style={styles.location}>London, United Kingdom</Text>
+          </View>
 
-        <View style={styles.detailsContainer}>
-          <View style={styles.details}>
-            <Text style={styles.topText}>Gender</Text>
-            <Text style={styles.bottomText}>Male</Text>
+          <View style={styles.detailsContainer}>
+            <View style={styles.details}>
+              <Text style={styles.topText}>Gender</Text>
+              <Text style={styles.bottomText}>Male</Text>
+            </View>
+            <View style={styles.details}>
+              <Text style={styles.topText}>Birthday</Text>
+              <Text style={styles.bottomText}>19.07.2003</Text>
+            </View>
+            <View style={styles.details}>
+              <Text style={styles.topText}>Known for</Text>
+              <Text style={styles.bottomText}>Acting</Text>
+            </View>
+            <View style={styles.detailsPopularity}>
+              <Text style={styles.topText}>Popularity</Text>
+              <Text style={styles.bottomText}>462.825</Text>
+            </View>
           </View>
-          <View style={styles.details}>
-            <Text style={styles.topText}>Birthday</Text>
-            <Text style={styles.bottomText}>19.07.2003</Text>
-          </View>
-          <View style={styles.details}>
-            <Text style={styles.topText}>Known for</Text>
-            <Text style={styles.bottomText}>Acting</Text>
-          </View>
-          <View style={styles.detailsPopularity}>
-            <Text style={styles.topText}>Popularity</Text>
-            <Text style={styles.bottomText}>462.825</Text>
-          </View>
-        </View>
 
-        <View style={styles.biographyContainer}>
-          <Text style={styles.biography}>Biography</Text>
-          <Text style={styles.content}>
-            Kit Harington tam adı ile Christopher Catesby Harington (26 Aralık
-            1986, Londra), İngiliz televizyon ve sinema oyuncusu. 1992 ve 1998
-            yılları arasında Southfield'de okudu. Daha sonra 1998 ve 2003
-            yılları arasında Chantry Yüksek Okulu'na devam etti. 2003 ve 2005
-            yılları arasında Drama ve Tiyatro Çalışmaları okudu, Worcester Sixth
-            Form College'e katıldı. 2008 yılında Londra Üniversitesi merkez
-            fakültesi konuşma ve drama bölümünden mezun oldu. Sessiz Tepe:
-            Karabasan ve Seventh Son filmlerinde de rol aldı. Ayrıca, Game Of
-            Thrones dizisinde Jon Snow isimli karakteri canlandırdı. Oyunculuk
-            yapmadan önce gazeteci, kameraman ve savaş muhaberi olmak isteyen
-            Harington, henüz drama ve tiyatro çalışmaları okulundayken ilk sahne
-            deneyimini National Theatre'da War Horse adlı oyununda Albert adlı
-            karakteri canlandırdı. Daha sonra ilk televizyon deneyimi için Game
-            of Thrones adlı dizide Jon Snow karakterini canlandıran Harington'ın
-            sahnelerinin büyük bölümü İzlanda ve Kuzey Irlanda'da çekildi. 2012
-            yılında Game of Thrones dizisindeki oyunculuğuyla Saturn Ödüllerinde
-            en iyi yardımcı erkek oyuncu dalında aday oldu.
-          </Text>
-        </View>
+          <View style={styles.biographyContainer}>
+            <Text style={styles.biography}>Biography</Text>
+            <Text style={styles.content}>
+              Kit Harington tam adı ile Christopher Catesby Harington (26 Aralık
+              1986, Londra), İngiliz televizyon ve sinema oyuncusu. 1992 ve 1998
+              yılları arasında Southfield'de okudu. Daha sonra 1998 ve 2003
+              yılları arasında Chantry Yüksek Okulu'na devam etti. 2003 ve 2005
+              yılları arasında Drama ve Tiyatro Çalışmaları okudu, Worcester
+              Sixth Form College'e katıldı. 2008 yılında Londra Üniversitesi
+              merkez fakültesi konuşma ve drama bölümünden mezun oldu. Sessiz
+              Tepe: Karabasan ve Seventh Son filmlerinde de rol aldı. Ayrıca,
+              Game Of Thrones dizisinde Jon Snow isimli karakteri canlandırdı.
+              Oyunculuk yapmadan önce gazeteci, kameraman ve savaş muhaberi
+              olmak isteyen Harington, henüz drama ve tiyatro çalışmaları
+              okulundayken ilk sahne deneyimini National Theatre'da War Horse
+              adlı oyununda Albert adlı karakteri canlandırdı. Daha sonra ilk
+              televizyon deneyimi için Game of Thrones adlı dizide Jon Snow
+              karakterini canlandıran Harington'ın sahnelerinin büyük bölümü
+              İzlanda ve Kuzey Irlanda'da çekildi. 2012 yılında Game of Thrones
+              dizisindeki oyunculuğuyla Saturn Ödüllerinde en iyi yardımcı erkek
+              oyuncu dalında aday oldu.
+            </Text>
+          </View>
 
-        {/* movies */}
-        <MovieList title="Movies" hideSeeAll data={personMovies} />
-      </View>
+          {/* movies */}
+          <MovieList title="Movies" hideSeeAll data={personMovies} />
+        </View>
+      )}
     </ScrollView>
   );
 }
