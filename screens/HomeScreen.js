@@ -15,11 +15,14 @@ import {
 import {indexStyles} from '../theme';
 import TrendingMovies from '../components/trendingMovies';
 import MovieList from '../components/movieList';
+import {useNavigation} from '@react-navigation/native';
 
 const HomeScreen = () => {
   const [trending, setTrending] = useState([1, 2, 3]);
   const [upcoming, setUpcoming] = useState([1, 2, 3]);
   const [topRated, setTopRated] = useState([1, 2, 3]);
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       {/* search bar and logo */}
@@ -30,7 +33,7 @@ const HomeScreen = () => {
           <Text style={styles.title}>
             <Text style={indexStyles.text}>M</Text>ovies
           </Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Search')}>
             <MagnifyingGlassIcon size={30} strokeWidth={2} color="white" />
           </TouchableOpacity>
         </View>

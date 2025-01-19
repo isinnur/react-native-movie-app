@@ -1,10 +1,10 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
 import HomeScreen from './screens/HomeScreen';
 import {createStackNavigator} from '@react-navigation/stack';
-import {NavigationContainer, StackRouter} from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import MovieScreen from './screens/MovieScreen';
 import PersonScreen from './screens/PersonScreen';
+import SearchScreen from './screens/SearchScreen';
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -27,6 +27,11 @@ const App = () => {
         <Stack.Screen
           name="Person"
           component={PersonScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Search"
+          component={SearchScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
