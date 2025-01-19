@@ -118,6 +118,10 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
 
+  icons: {
+    borderRadius: 6,
+  },
+
   personDetails: {
     flexDirection: 'row',
     justifyContent: 'center',
