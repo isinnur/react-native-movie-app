@@ -29,9 +29,6 @@ export default function MovieScreen() {
   let movieName = 'Game of Thrones';
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    //call the movie details api
-  }, [item]);
   return (
     <ScrollView
       contentContainerStyle={{paddingBottom: 20}}

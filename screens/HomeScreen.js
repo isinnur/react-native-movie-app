@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -17,6 +17,7 @@ import TrendingMovies from '../components/trendingMovies';
 import MovieList from '../components/movieList';
 import {useNavigation} from '@react-navigation/native';
 import Loading from '../components/loading';
+import {fetchTrendingMovies} from '../api/moviedb';
 
 const HomeScreen = () => {
   const [trending, setTrending] = useState([1, 2, 3]);
@@ -24,6 +25,15 @@ const HomeScreen = () => {
   const [topRated, setTopRated] = useState([1, 2, 3]);
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    getTrendingMovies();
+  }, []);
+
+  const getTrendingMovies = async () => {
+    const data = await fetchTrendingMovies();
+    console.log('got trending movies :', data);
+  };
 
   return (
     <View style={styles.container}>
