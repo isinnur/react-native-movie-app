@@ -10,6 +10,7 @@ import {
 import Carousel from 'react-native-snap-carousel';
 import {Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {image500} from '../api/moviedb';
 
 const {width, height} = Dimensions.get('window');
 export default function TrendingMovies({data}) {
@@ -27,7 +28,7 @@ export default function TrendingMovies({data}) {
           <MovieCard item={item} handleClick={handleClick} />
         )}
         firstItem={1}
-        inactiveSlideOpacity={0.6}
+        inactiveSlideOpacity={0.3}
         sliderWidth={width}
         itemWidth={width * 0.62}
         slideStyle={{display: 'flex', alignItems: 'center'}}
@@ -37,11 +38,13 @@ export default function TrendingMovies({data}) {
 }
 
 const MovieCard = ({item, handleClick}) => {
+  console.log('item.poster_path: ', item.poster_path);
+
   return (
     <TouchableWithoutFeedback onPress={() => handleClick(item)}>
       <Image
-        source={require('../assets/images/poster1.webp')}
-        // style={{width: width * 0.6, height: height * 0.4}}
+        // source={require('../assets/images/poster1.webp')}
+        source={{uri: image500(item.poster_path)}}
         style={styles.posterImage}
       />
     </TouchableWithoutFeedback>

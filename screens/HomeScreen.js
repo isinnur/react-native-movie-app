@@ -17,22 +17,48 @@ import TrendingMovies from '../components/trendingMovies';
 import MovieList from '../components/movieList';
 import {useNavigation} from '@react-navigation/native';
 import Loading from '../components/loading';
-import {fetchTrendingMovies} from '../api/moviedb';
+import {
+  fetchTopRatedMovies,
+  fetchTrendingMovies,
+  fetchUpcomingMovies,
+} from '../api/moviedb';
 
 const HomeScreen = () => {
-  const [trending, setTrending] = useState([1, 2, 3]);
-  const [upcoming, setUpcoming] = useState([1, 2, 3]);
-  const [topRated, setTopRated] = useState([1, 2, 3]);
+  const [trending, setTrending] = useState();
+  const [upcoming, setUpcoming] = useState();
+  const [topRated, setTopRated] = useState();
   const navigation = useNavigation();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getTrendingMovies();
+    getUpcomingMovies();
+    getTopRatedMovies();
   }, []);
 
   const getTrendingMovies = async () => {
     const data = await fetchTrendingMovies();
-    console.log('got trending movies :', data);
+    // console.log('got trending movies :', data);
+    if (data && data.results) {
+      setTrending(data.results);
+      setLoading(false);
+    }
+  };
+  const getUpcomingMovies = async () => {
+    const data = await fetchUpcomingMovies();
+    // console.log('got upcoming movies :', data);
+    if (data && data.results) {
+      setUpcoming(data.results);
+      setLoading(false);
+    }
+  };
+  const getTopRatedMovies = async () => {
+    const data = await fetchTopRatedMovies();
+    // console.log('got trending movies :', data);
+    if (data && data.results) {
+      setTopRated(data.results);
+      setLoading(false);
+    }
   };
 
   return (
@@ -58,7 +84,7 @@ const HomeScreen = () => {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{paddingBottom: 10}}>
           {/* trending movies carousel */}
-          <TrendingMovies data={trending} />
+          {trending?.length > 0 && <TrendingMovies data={trending} />}
 
           {/* upcoming movies row */}
           <MovieList title="Upcoming" data={upcoming} />

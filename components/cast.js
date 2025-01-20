@@ -2,6 +2,7 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Image} from 'react-native';
+import {fallbackPersonImage, image185} from '../api/moviedb';
 export default function Cast({cast, navigation}) {
   let castPerson = 'Kit Harington';
   let characterName = 'Jon Snow';
@@ -22,19 +23,23 @@ export default function Cast({cast, navigation}) {
                 <View style={styles.imgContainer}>
                   <Image
                     style={styles.image}
-                    source={require('../assets/images/cast1.png')}
+                    // source={require('../assets/images/cast1.png')}
+                    source={{
+                      uri:
+                        image185(person?.profile_path) || fallbackPersonImage,
+                    }}
                   />
                 </View>
 
                 <Text style={styles.castCharacter}>
-                  {characterName.length > 10
-                    ? characterName.slice(0, 10) + '...'
-                    : characterName}
+                  {person?.character.length > 10
+                    ? person?.character.slice(0, 10) + '...'
+                    : person?.character}
                 </Text>
                 <Text style={styles.castPerson}>
-                  {castPerson.length > 10
-                    ? castPerson.slice(0, 10) + '...'
-                    : castPerson}
+                  {person?.original_name.length > 10
+                    ? person?.original_name.slice(0, 10) + '...'
+                    : person?.original_name}
                 </Text>
               </TouchableOpacity>
             );

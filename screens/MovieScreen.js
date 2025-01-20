@@ -17,17 +17,58 @@ import LinearGradient from 'react-native-linear-gradient';
 import Cast from '../components/cast';
 import MovieList from '../components/movieList';
 import Loading from '../components/loading';
+import {
+  fallbackMoviePoster,
+  fetchMovieCredits,
+  fetchMovieDetails,
+  fetchSimilarMovies,
+  image500,
+} from '../api/moviedb';
 
 const {width, height} = Dimensions.get('window');
 
 export default function MovieScreen() {
   const {params: item} = useRoute();
   const [isFavorite, toggleFavorite] = useState(false);
-  const [cast, setCast] = useState([1, 2, 3, 4, 5]);
-  const [similarMovies, setSimilarMovies] = useState([1, 2, 3, 4, 5]);
+  const [cast, setCast] = useState([]);
+  const [similarMovies, setSimilarMovies] = useState([]);
+  const [movie, setMovie] = useState({});
   const navigation = useNavigation();
   let movieName = 'Game of Thrones';
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    // console.log('itemid', item.id);
+    setLoading(true);
+    getMovieDetails(item.id);
+    getmovieCredits(item.id);
+    getSimilarMovies(item.id);
+  }, [item]);
+
+  const getMovieDetails = async id => {
+    const data = await fetchMovieDetails(id);
+    // console.log('got movie details', data);
+    if (data) {
+      setMovie(data);
+    }
+    setLoading(false);
+  };
+
+  const getmovieCredits = async id => {
+    const data = await fetchMovieCredits(id);
+    if (data && data.cast) {
+      setCast(data.cast);
+    }
+    setLoading(false);
+  };
+
+  const getSimilarMovies = async id => {
+    const data = await fetchSimilarMovies(id);
+    if (data && data.results) {
+      setSimilarMovies(data.results);
+    }
+    setLoading(false);
+  };
 
   return (
     <ScrollView
@@ -55,7 +96,8 @@ export default function MovieScreen() {
         ) : (
           <View>
             <Image
-              source={require('../assets/images/poster5.jpg')}
+              // source={require('../assets/images/poster5.jpg')}
+              source={{uri: image500(movie.poster_path) || fallbackMoviePoster}}
               style={styles.heroImage}
             />
             <LinearGradient
@@ -71,26 +113,33 @@ export default function MovieScreen() {
       {/* movie details */}
       <View style={styles.movieDetailContainer}>
         {/* title */}
-        <Text style={styles.detailText}>{movieName}</Text>
+        <Text style={styles.detailText}>{movie?.title}</Text>
       </View>
 
       {/* status,relese,runtime */}
-      <Text style={styles.movieStatus}>Relased · 2012 · 170 min</Text>
+      {movie?.id ? (
+        <Text style={styles.movieStatus}>
+          {movie?.status} · {movie?.release_date?.split('-')[0]} ·{' '}
+          {movie?.runtime} min
+        </Text>
+      ) : null}
+
       {/* genres */}
       <View style={styles.movieGenres}>
-        <Text style={styles.genre}> Action · </Text>
-        <Text style={styles.genre}> Thrill · </Text>
-        <Text style={styles.genre}> Comedy </Text>
+        {movie?.genres?.map((genre, index) => {
+          let showDot = index + 1 !== movie.genres.length;
+          return (
+            <Text style={styles.genre}>
+              {' '}
+              {genre?.name} {showDot ? '·' : null}{' '}
+            </Text>
+          );
+        })}
+        {/* <Text style={styles.genre}> Thrill · </Text>
+        <Text style={styles.genre}> Comedy </Text> */}
       </View>
       {/* description */}
-      <Text style={styles.description}>
-        Game of Thrones is an American fantasy drama television series created
-        by David Benioff and D. B. Weiss for HBO. It is an adaptation of A Song
-        of Ice and Fire, a series of fantasy novels by George R. R. Martin, the
-        first of which is A Game of Thrones. The show premiered on HBO in the
-        United States on April 17, 2011, and concluded on May 19, 2019, with 73
-        episodes broadcast over eight seasons.
-      </Text>
+      <Text style={styles.description}>{movie?.overview}</Text>
 
       {/* cast */}
       <Cast cast={cast} navigation={navigation} />

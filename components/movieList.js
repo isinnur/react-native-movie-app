@@ -13,6 +13,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
+import {fallbackMoviePoster, image185} from '../api/moviedb';
 
 const {width, height} = Dimensions.get('window');
 
@@ -42,13 +43,16 @@ export default function MovieList({title, data, hideSeeAll}) {
               onPress={() => navigation.push('Movie', item)}>
               <View style={styles.wrapper}>
                 <Image
-                  source={require('../assets/images/poster2.webp')}
+                  // source={require('../assets/images/poster2.webp')}
+                  source={{
+                    uri: image185(item.poster_path) || fallbackMoviePoster,
+                  }}
                   style={styles.posterImage}
                 />
                 <Text style={styles.movieName}>
-                  {movieName.length > 14
-                    ? movieName.slice(0, 14) + '...'
-                    : movieName}
+                  {item.title.length > 14
+                    ? item.title.slice(0, 14) + '...'
+                    : item.title}
                 </Text>
               </View>
             </TouchableWithoutFeedback>
