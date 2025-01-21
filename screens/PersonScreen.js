@@ -8,21 +8,51 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ChevronLeftIcon, HeartIcon} from 'react-native-heroicons/solid';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {indexStyles} from '../theme';
 import MovieList from '../components/movieList';
 import Loading from '../components/loading';
+import {
+  fallbackPersonImage,
+  fetchPersonDetails,
+  fetchPersonMovies,
+  image342,
+} from '../api/moviedb';
 
 const {width, height} = Dimensions.get('window');
 
 export default function PersonScreen() {
+  const {params: item} = useRoute();
   const navigation = useNavigation();
   const [isFavorite, toggleFavorite] = useState(false);
   const [personMovies, setPersonMovies] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+  const [person, setPerson] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    setLoading(true);
+    // console.log('person', item);
+    getPersonDetails(item.id);
+    getPersonMovies(item.id);
+  }, [item]);
+
+  const getPersonDetails = async id => {
+    const data = await fetchPersonDetails(id);
+    if (data) {
+      setPerson(data);
+    }
+    setLoading(false);
+  };
+
+  const getPersonMovies = async id => {
+    const data = await fetchPersonMovies(id);
+    if (data && data.cast) {
+      setPersonMovies(data.cast);
+    }
+    setLoading(false);
+  };
   return (
     <ScrollView
       style={styles.personContainer}
@@ -50,56 +80,49 @@ export default function PersonScreen() {
             <View style={styles.imageView}>
               <Image
                 style={styles.image}
-                source={require('../assets/images/cast1.png')}
+                // source={require('../assets/images/cast1.png')}
+                source={{
+                  uri: image342(person.profile_path) || fallbackPersonImage,
+                }}
               />
             </View>
           </View>
 
           <View style={styles.personDetail}>
-            <Text style={styles.personText}>Kit Harington</Text>
-            <Text style={styles.location}>London, United Kingdom</Text>
+            <Text style={styles.personText}>{person?.name}</Text>
+            <Text style={styles.location}>{person?.place_of_birth}</Text>
           </View>
 
           <View style={styles.detailsContainer}>
             <View style={styles.details}>
               <Text style={styles.topText}>Gender</Text>
-              <Text style={styles.bottomText}>Male</Text>
+              <Text style={styles.bottomText}>
+                {' '}
+                {person?.gender == 1 ? 'Female' : 'Male'}
+              </Text>
             </View>
             <View style={styles.details}>
               <Text style={styles.topText}>Birthday</Text>
-              <Text style={styles.bottomText}>19.07.2003</Text>
+              <Text style={styles.bottomText}> {person?.birthday}</Text>
             </View>
             <View style={styles.details}>
               <Text style={styles.topText}>Known for</Text>
-              <Text style={styles.bottomText}>Acting</Text>
+              <Text style={styles.bottomText}>
+                {person?.known_for_department}
+              </Text>
             </View>
             <View style={styles.detailsPopularity}>
               <Text style={styles.topText}>Popularity</Text>
-              <Text style={styles.bottomText}>462.825</Text>
+              <Text style={styles.bottomText}>
+                {person?.popularity?.toFixed(2)}
+              </Text>
             </View>
           </View>
 
           <View style={styles.biographyContainer}>
             <Text style={styles.biography}>Biography</Text>
             <Text style={styles.content}>
-              Kit Harington tam adı ile Christopher Catesby Harington (26 Aralık
-              1986, Londra), İngiliz televizyon ve sinema oyuncusu. 1992 ve 1998
-              yılları arasında Southfield'de okudu. Daha sonra 1998 ve 2003
-              yılları arasında Chantry Yüksek Okulu'na devam etti. 2003 ve 2005
-              yılları arasında Drama ve Tiyatro Çalışmaları okudu, Worcester
-              Sixth Form College'e katıldı. 2008 yılında Londra Üniversitesi
-              merkez fakültesi konuşma ve drama bölümünden mezun oldu. Sessiz
-              Tepe: Karabasan ve Seventh Son filmlerinde de rol aldı. Ayrıca,
-              Game Of Thrones dizisinde Jon Snow isimli karakteri canlandırdı.
-              Oyunculuk yapmadan önce gazeteci, kameraman ve savaş muhaberi
-              olmak isteyen Harington, henüz drama ve tiyatro çalışmaları
-              okulundayken ilk sahne deneyimini National Theatre'da War Horse
-              adlı oyununda Albert adlı karakteri canlandırdı. Daha sonra ilk
-              televizyon deneyimi için Game of Thrones adlı dizide Jon Snow
-              karakterini canlandıran Harington'ın sahnelerinin büyük bölümü
-              İzlanda ve Kuzey Irlanda'da çekildi. 2012 yılında Game of Thrones
-              dizisindeki oyunculuğuyla Saturn Ödüllerinde en iyi yardımcı erkek
-              oyuncu dalında aday oldu.
+              {person?.biography || 'No biography available'}
             </Text>
           </View>
 
