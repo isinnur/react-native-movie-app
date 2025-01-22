@@ -50,9 +50,9 @@ export default function MovieList({title, data, hideSeeAll}) {
                   style={styles.posterImage}
                 />
                 <Text style={styles.movieName}>
-                  {item.title.length > 14
-                    ? item.title.slice(0, 14) + '...'
-                    : item.title}
+                  {item?.title?.length > 14
+                    ? item?.title.slice(0, 14) + '...'
+                    : item?.title}
                 </Text>
               </View>
             </TouchableWithoutFeedback>

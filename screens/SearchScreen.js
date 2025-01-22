@@ -9,24 +9,50 @@ import {
   TouchableWithoutFeedback,
   Image,
 } from 'react-native';
-import React, {useState} from 'react';
+import {debounce} from 'lodash';
+import React, {useCallback, useState} from 'react';
 import {XMarkIcon} from 'react-native-heroicons/outline';
 import {useNavigation} from '@react-navigation/native';
 import {ScrollView} from 'react-native-gesture-handler';
 import Loading from '../components/loading';
+import {fallbackMoviePoster, image185, searchMovies} from '../api/moviedb';
 
 const {width, height} = Dimensions.get('window');
 
 export default function SearchScreen() {
   const navigation = useNavigation();
-  const [results, setResults] = useState([1, 2, 3, 4]);
+  const [results, setResults] = useState([]);
   let movieName = 'Squid Game';
   const [loading, setLoading] = useState(false);
 
+  const handleSearch = value => {
+    if (value && value.length > 2) {
+      setLoading(true);
+      searchMovies({
+        query: value,
+        include_adult: 'false',
+        language: 'en-US',
+        page: '1',
+      }).then(data => {
+        setLoading(false);
+        // console.log('got movies:', data);
+        if (data && data.results) {
+          setResults(data.results);
+        }
+      });
+    } else {
+      setLoading(false);
+      setResults([]);
+    }
+  };
+  const handleTextDebounce = useCallback(value => {
+    debounce(handleSearch, 400)(value);
+  }, []);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.searchBar}>
         <TextInput
+          onChangeText={handleTextDebounce}
           placeholder="Search Movie"
           placeholderTextColor="lightgray"
           style={styles.searchInput}
@@ -60,12 +86,15 @@ export default function SearchScreen() {
                   <View style={styles.imageContainer}>
                     <Image
                       style={styles.image}
-                      source={require('../assets/images/poster3.webp')}
+                      // source={require('../assets/images/poster3.webp')}
+                      source={{
+                        uri: image185(item?.poster_path) || fallbackMoviePoster,
+                      }}
                     />
                     <Text style={styles.movieName}>
-                      {movieName.length > 22
-                        ? movieName.slice(0, 22) + '...'
-                        : movieName}
+                      {item?.title?.length > 22
+                        ? item?.title.slice(0, 22) + '...'
+                        : item?.title}
                     </Text>
                   </View>
                 </TouchableWithoutFeedback>
