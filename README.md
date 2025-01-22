@@ -12,14 +12,14 @@ Movie App is a mobile application that allows users to search for movies, view m
 ## Screenshots
 
  <div style="display: flex; flex-direction: row; margin-bottom : 20px; gap:20px;">
-   <img src="assets/screenshots/1.png" alt="Home Screen" width="12%" "/>
-   <img src="assets/screenshots/2.png" alt="Home Screen" width="12%" "/>
-   <img src="assets/screenshots/3.png" alt="Movie Detail Screen" width="12%" "/>
-   <img src="assets/screenshots/4.png" alt="Movie Detail Screen" width="12%"/>
+   <img src="assets/screenshots/1.png" alt="Home Screen" width="20%" "/>
+   <img src="assets/screenshots/2.png" alt="Home Screen" width="20%" "/>
+   <img src="assets/screenshots/3.png" alt="Movie Detail Screen" width="20%" "/>
+   <img src="assets/screenshots/4.png" alt="Movie Detail Screen" width="20%"/>
 </div>
 
  <div style="display: flex; flex-direction: row; gap : 20px;">
-   <img src="assets/screenshots/5.png" alt="Cast Screen" width="12%" />
-   <img src="assets/screenshots/6.png" alt="Cast Screen" width="12%" />
-   <img src="assets/screenshots/7.png" alt="Search Screen" width="12%"/>
+   <img src="assets/screenshots/5.png" alt="Cast Screen" width="20%" />
+   <img src="assets/screenshots/6.png" alt="Cast Screen" width="20%" />
+   <img src="assets/screenshots/7.png" alt="Search Screen" width="20%"/>
 </div>
